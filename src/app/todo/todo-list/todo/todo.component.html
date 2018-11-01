@@ -1,0 +1,7 @@
+<mat-list-item *ngIf="todo$ | async as todo">
+  <mat-checkbox
+    disabled
+    mat-list-icon
+  ></mat-checkbox>
+  <h4 matLine [ngClass]="{completed: isCompleted(todo)}">{{ todo.title }}</h4>
+</mat-list-item>

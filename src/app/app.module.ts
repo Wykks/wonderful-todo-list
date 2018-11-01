@@ -1,13 +1,23 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
+import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
-import { AppEffects } from './app.effects';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AppComponent } from './app.component';
+import { metaReducers, reducers } from './reducers';
+import { TODO_ROUTES, TodoModule } from './todo/todo.module';
+import { environment } from 'src/environments/environment';
+
+export const APP_ROUTES: Routes = [
+  {
+    path: '',
+    children: TODO_ROUTES,
+    pathMatch: 'full'
+  },
+  { path: '**', redirectTo: '' }
+];
 
 @NgModule({
   declarations: [
@@ -15,10 +25,15 @@ import { AppEffects } from './app.effects';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
+    RouterModule.forRoot(APP_ROUTES),
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([AppEffects])
+    StoreDevtoolsModule.instrument({
+      name: 'Todo app',
+      logOnly: environment.production
+    }),
+    EffectsModule.forRoot([]),
+    TodoModule
   ],
   providers: [],
   bootstrap: [AppComponent]
