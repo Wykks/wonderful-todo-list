@@ -1,10 +1,13 @@
 import { Action } from '@ngrx/store';
-import { Todo } from '../todo';
+import { Todo, TodoStatus } from '../todo';
 
 export enum TodoActionTypes {
   LoadTodos = '[Todo] Load Todos',
   LoadTodosSuccess = '[Todo] Load Todos Success',
-  LoadTodosFailure = '[Todo] Load Todos Failure'
+  LoadTodosFailure = '[Todo] Load Todos Failure',
+  SetTodoStatus = '[Todo] Set Todo Status',
+  SetTodoStatusSuccess = '[Todo] Set Todo Status Success',
+  SetTodoStatusFailure = '[Todo] Set Todo Status Failure'
 }
 
 export class LoadTodos implements Action {
@@ -23,7 +26,28 @@ export class LoadTodosFailure implements Action {
   constructor(public payload: Error) { }
 }
 
+export class SetTodoStatus implements Action {
+  readonly type = TodoActionTypes.SetTodoStatus;
+
+  constructor(public payload: { id: string; status: TodoStatus }) { }
+}
+
+export class SetTodoStatusSuccess implements Action {
+  readonly type = TodoActionTypes.SetTodoStatusSuccess;
+
+  constructor(public payload: { id: string; status: TodoStatus }) { }
+}
+
+export class SetTodoStatusFailure implements Action {
+  readonly type = TodoActionTypes.SetTodoStatusFailure;
+
+  constructor(public payload: { id: string; error: Error, status: TodoStatus }) { }
+}
+
 export type TodoActions =
   LoadTodos |
   LoadTodosSuccess |
-  LoadTodosFailure;
+  LoadTodosFailure |
+  SetTodoStatus |
+  SetTodoStatusSuccess |
+  SetTodoStatusFailure;

@@ -22,4 +22,4 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IndexComponent {}
+export class IndexComponent { }

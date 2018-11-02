@@ -1,5 +1,6 @@
 import { reducer, initialState } from './ui.reducer';
-import { LoadTodosSuccess, LoadTodos, LoadTodosFailure } from '../actions/todo.actions';
+import { LoadTodosSuccess, LoadTodos, LoadTodosFailure, SetTodoStatusSuccess, SetTodoStatusFailure, SetTodoStatus } from '../actions/todo.actions';
+import { TodoStatus } from '../todo';
 
 describe('[Todo] Ui Reducer', () => {
   describe('LoadTodos', () => {
@@ -32,6 +33,40 @@ describe('[Todo] Ui Reducer', () => {
 
       expect(result.loadingTodoList).toBe(false);
       expect(result.todoListError).toBe(error);
+    });
+  });
+
+  describe('SetTodoStatus', () => {
+    it('should mark todo loading', () => {
+      const action = new SetTodoStatus({ id: '42', status: TodoStatus.ACTIVE });
+
+      const result = reducer(initialState, action);
+
+      expect(result.loadingTodoById['42']).toBe(true);
+      expect(result.errorTodoById['42']).toBeFalsy();
+    });
+  });
+
+  describe('SetTodoStatusSuccess', () => {
+    it('should clear loading and error of todo', () => {
+      const action = new SetTodoStatusSuccess({ id: '42', status: TodoStatus.ACTIVE });
+
+      const result = reducer(initialState, action);
+
+      expect(result.loadingTodoById['42']).toBeFalsy();
+      expect(result.errorTodoById['42']).toBeFalsy();
+    });
+  });
+
+  describe('SetTodoStatusFailure', () => {
+    it('should clear loading and set error of todo', () => {
+      const error = new Error();
+      const action = new SetTodoStatusFailure({ id: '42', status: TodoStatus.ACTIVE, error });
+
+      const result = reducer(initialState, action);
+
+      expect(result.loadingTodoById['42']).toBeFalsy();
+      expect(result.errorTodoById['42']).toBeTruthy();
     });
   });
 });

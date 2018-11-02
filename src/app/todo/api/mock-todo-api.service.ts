@@ -10,16 +10,6 @@ export class MockTodoApi implements HttpInterceptor {
   todosDb: Todo[] = [
     {
       id: cuid(),
-      title: 'List my TODOs',
-      status: TodoStatus.COMPLETED
-    },
-    {
-      id: cuid(),
-      title: 'Change a TODO state',
-      status: TodoStatus.ACTIVE
-    },
-    {
-      id: cuid(),
       title: 'Detail a TODO',
       status: TodoStatus.ACTIVE
     },
@@ -37,6 +27,16 @@ export class MockTodoApi implements HttpInterceptor {
       id: cuid(),
       title: 'Eat an apple',
       status: TodoStatus.ACTIVE
+    },
+    {
+      id: cuid(),
+      title: 'List my TODOs',
+      status: TodoStatus.COMPLETED
+    },
+    {
+      id: cuid(),
+      title: 'Change a TODO state',
+      status: TodoStatus.COMPLETED
     }
   ];
 
@@ -49,6 +49,19 @@ export class MockTodoApi implements HttpInterceptor {
         }
         if (request.url.endsWith('todos') && request.method === 'GET') {
           return of(new HttpResponse({ status: 200, body: this.todosDb }));
+        }
+        if (request.method === 'PUT') {
+          const params = request.url.match(/^todo\/(.*)\/status\/(.*)$/);
+          if (params) {
+            const id = params[1];
+            const status = <TodoStatus>params[2];
+            const todo = this.todosDb.find((todo) => todo.id === id);
+            if (!todo) {
+              return throwError({ error: { message: 'Todo not found' } });
+            }
+            todo.status = status;
+            return of(new HttpResponse({ status: 200 }));
+          }
         }
         return next.handle(request);
       })

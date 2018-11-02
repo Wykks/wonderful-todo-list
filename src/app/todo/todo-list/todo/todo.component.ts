@@ -1,16 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { State } from 'src/app/reducers';
+import { State } from '../../reducers';
 import { getTodoEntities } from '../../selectors/todo.selectors';
-import { map } from 'rxjs/operators';
+import { map, filter, first } from 'rxjs/operators';
 import { Todo, TodoStatus } from '../../todo';
-
-// Note to whoever see this:
-// This component could get a complete todo instead of a just an id, and be a so-called "dumb component"
-// But in this case, when a todo is updated, the list of todo is updated, and trigger an unecessary update in the todo list component.
-
-// So the way it's currently done, only this component is updated
-// Of course I can add a layer of container component, to have a pure "dumb component", but seriously, why (as long as todo is not a shared component) ? :)
+import { FormControl } from '@angular/forms';
+import { Subscription, combineLatest } from 'rxjs';
+import { SetTodoStatus } from '../../actions/todo.actions';
+import { getTodoLoadingById, getTodoErrorById } from '../../selectors/ui.selectors';
 
 @Component({
   selector: 'app-todo-list-todo',
@@ -24,25 +21,84 @@ import { Todo, TodoStatus } from '../../todo';
     .completed {
       text-decoration: line-through;
     }
+
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoComponent implements OnInit {
   @Input() todoId: string;
 
-  todo$ = this.Store.pipe(
-    select(getTodoEntities),
-    map((todoEntities) => todoEntities[this.todoId])
-  )
+  isLoading$ = this.Store.pipe(
+    select(getTodoLoadingById),
+    map((todoLoadingById) => !!todoLoadingById[this.todoId])
+  );
+
+  todoError$ = this.Store.pipe(
+    select(getTodoErrorById),
+    map((todoErrorById) => todoErrorById[this.todoId])
+  );
+
+  todo$ = combineLatest(
+    this.Store.pipe(
+      select(getTodoEntities),
+      map((todoEntities) => todoEntities[this.todoId]),
+      filter((todo) => !!todo)
+    ),
+    this.todoError$
+  ).pipe(
+    map(([todo, todoError]) => {
+      if (todoError) {
+        return { ...todo, ...todoError.changes };
+      }
+      return todo;
+    })
+  );
+
+  todoControl = new FormControl();
+
+  subscriptions = new Subscription();
 
   constructor(
     private Store: Store<State>
   ) { }
 
   ngOnInit() {
+    let sub = this.todo$.pipe(
+      map((todo) => this.isCompleted(todo)),
+      filter((isTodoCompleted) => isTodoCompleted !== this.todoControl.value)
+    ).subscribe((isTodoCompleted) => {
+      this.todoControl.reset(isTodoCompleted, { emitEvent: false });
+    });
+    this.subscriptions.add(sub);
+    sub = this.todoControl.valueChanges
+      .subscribe((value) => {
+        this.Store.dispatch(new SetTodoStatus({ id: this.todoId, status: value ? TodoStatus.COMPLETED : TodoStatus.ACTIVE }))
+      });
+    this.subscriptions.add(sub);
+    sub = this.todoError$.subscribe((error) => {
+      error ? this.todoControl.disable({ emitEvent: false }) : this.todoControl.enable({ emitEvent: false });
+    });
+    this.subscriptions.add(sub);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   isCompleted(todo: Todo) {
-    return todo.status === TodoStatus.COMPLETED
+    return todo.status === TodoStatus.COMPLETED;
+  }
+
+  retry() {
+    this.todoError$.pipe(first()).subscribe((error) => {
+      if (error.changes.status) {
+        this.Store.dispatch(new SetTodoStatus({ id: this.todoId, status: error.changes.status }))
+      }
+    });
   }
 }

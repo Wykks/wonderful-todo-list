@@ -1,7 +1,27 @@
 <mat-list-item *ngIf="todo$ | async as todo">
+  <div
+    *ngIf="isLoading$ | async"
+    class="loading"
+    mat-list-icon
+  >
+    <mat-spinner [diameter]="20"></mat-spinner>
+  </div>
   <mat-checkbox
-    disabled
+    *ngIf="(isLoading$ | async) === false"
+    [formControl]="todoControl"
     mat-list-icon
   ></mat-checkbox>
-  <h4 matLine [ngClass]="{completed: isCompleted(todo)}">{{ todo.title }}</h4>
+  <h4
+    matLine
+    [ngClass]="{completed: isCompleted(todo)}"
+  >{{ todo.title }}</h4>
+  <button
+    *ngIf="todoError$ | async"
+    mat-icon-button
+    matTooltip="Retry"
+    (click)="retry()"
+    color="warn"
+  >
+    <mat-icon>warning</mat-icon>
+  </button>
 </mat-list-item>
