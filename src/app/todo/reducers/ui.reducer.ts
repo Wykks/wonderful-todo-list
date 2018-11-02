@@ -1,7 +1,4 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { Action } from '@ngrx/store';
 import { TodoActions, TodoActionTypes } from '../actions/todo.actions';
-import { Todo } from '../todo';
 
 export interface UiState {
   loadingTodoList: boolean;
