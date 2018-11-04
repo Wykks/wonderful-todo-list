@@ -9,3 +9,5 @@ export interface Todo {
   title: string;
   desc: string;
 }
+
+export type NewTodo = Pick<Todo, Exclude<keyof Todo, 'id' | 'status'>>;

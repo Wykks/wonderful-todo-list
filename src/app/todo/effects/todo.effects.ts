@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { TodoActionTypes, LoadTodosSuccess, LoadTodosFailure, SetTodoStatus, SetTodoStatusSuccess, SetTodoStatusFailure, LoadTodo, LoadTodoSuccess, LoadTodoFailure } from '../actions/todo.actions';
-import { TodoApiService } from '../api/todo-api.service';
-import { switchMap, map, catchError, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  LoadTodo,
+  LoadTodoFailure,
+  LoadTodosFailure,
+  LoadTodosSuccess,
+  LoadTodoSuccess,
+  SetTodoStatus,
+  SetTodoStatusFailure,
+  SetTodoStatusSuccess,
+  TodoActionTypes
+} from '../actions/todo.actions';
+import { TodoApiService } from '../api/todo-api.service';
 
 @Injectable()
 export class TodoEffects {

@@ -12,3 +12,10 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.absolute-center {
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

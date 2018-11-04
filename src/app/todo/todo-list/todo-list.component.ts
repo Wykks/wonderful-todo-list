@@ -5,6 +5,7 @@ import { LoadTodos, SetTodoStatus } from '../actions/todo.actions';
 import { State } from '../reducers';
 import { getTodoIds } from '../selectors/todo.selectors';
 import { getTodoErrorById, getTodoListError, isTodoListLoading, isTodoListLoaded } from '../selectors/ui.selectors';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './todo-list.component.html',
@@ -21,7 +22,9 @@ export class TodoListComponent implements OnInit {
   )
 
   constructor(
-    private Store: Store<State>
+    private Store: Store<State>,
+    private Router: Router,
+    private ActivatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -47,5 +50,11 @@ export class TodoListComponent implements OnInit {
         }
       }
     })
+  }
+
+  createTodo() {
+    this.Router.navigate([{ outlets: { modal: ['create'] } }], {
+      relativeTo: this.ActivatedRoute
+    });
   }
 }

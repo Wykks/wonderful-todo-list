@@ -1,12 +1,20 @@
-<button
-  *ngIf="atLeastOneTodoInError$ | async"
-  mat-icon-button
-  matTooltip="Retry all"
-  class="retry-all"
-  (click)="retryAll()"
->
-  <mat-icon color="warn">warning</mat-icon>
-</button>
+<div>
+  <button
+    *ngIf="!(isError$ | async)"
+    mat-icon-button
+    [routerLink]="[{ outlets: { dialog: ['create'] } }]"
+  >
+    <mat-icon color="accent">add</mat-icon>
+  </button>
+  <button
+    *ngIf="atLeastOneTodoInError$ | async"
+    mat-icon-button
+    matTooltip="Retry all"
+    (click)="retryAll()"
+  >
+    <mat-icon color="warn">warning</mat-icon>
+  </button>
+</div>
 <mat-spinner *ngIf="isLoading$ | async; else todoList"></mat-spinner>
 <ng-template #todoList>
   <app-generic-error
@@ -20,3 +28,4 @@
     ></app-todo-list-todo>
   </mat-list>
 </ng-template>
+<router-outlet name="dialog"></router-outlet>

@@ -5,10 +5,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const MODULES = [
   CommonModule,
@@ -20,7 +23,10 @@ const MODULES = [
   MatCheckboxModule,
   MatProgressSpinnerModule,
   MatButtonModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatDialogModule,
+  MatInputModule,
+  MatSnackBarModule
 ]
 
 @NgModule({

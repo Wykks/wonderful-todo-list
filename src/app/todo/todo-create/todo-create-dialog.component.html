@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>New todo</h1>
+<form [formGroup]="form">
+  <div
+    mat-dialog-content
+    class="form"
+  >
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Title"
+        formControlName="title"
+        required
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        matInput
+        placeholder="Description"
+        formControlName="desc"
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions>
+    <button
+      mat-button
+      mat-dialog-close
+      type="button"
+    >Close</button>
+    <button
+      mat-raised-button
+      type="submit"
+      color="primary"
+      [disabled]="isLoading || !form.valid"
+      (click)="save()"
+    >
+      <span [style.visibility]="isLoading ? 'hidden' : 'visible'">Save</span>
+      <div class="absolute-center">
+        <mat-spinner
+          *ngIf="isLoading"
+          [diameter]="20"
+        ></mat-spinner>
+      </div>
+    </button>
+  </div>
+</form>

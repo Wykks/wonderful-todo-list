@@ -10,41 +10,41 @@ export class MockTodoApi implements HttpInterceptor {
   todosDb: Todo[] = [
     {
       id: '1',
-      title: 'Detail a TODO',
-      desc: `
-        Display one of my todo in a separate or dedicated view.<br/>
-        This todo will contain its title and a description (which is a new information not shown in the previous view).
-      `,
-      status: TodoStatus.ACTIVE
-    },
-    {
-      id: '2',
-      title: 'Add a new TODO',
-      desc: 'Add a new todo in my list',
-      status: TodoStatus.ACTIVE
-    },
-    {
-      id: '3',
       title: 'More things TODO',
       desc: 'Do fancy stuff',
       status: TodoStatus.ACTIVE
     },
     {
-      id: '4',
+      id: '2',
       title: 'Eat an apple',
       desc: 'Because why not',
       status: TodoStatus.ACTIVE
     },
     {
-      id: '5',
+      id: '3',
       title: 'List my TODOs',
       desc: 'List my current todos',
       status: TodoStatus.COMPLETED
     },
     {
-      id: '6',
+      id: '4',
       title: 'Change a TODO state',
       desc: 'Change a todo state by checking a "box"',
+      status: TodoStatus.COMPLETED
+    },
+    {
+      id: '5',
+      title: 'Detail a TODO',
+      desc: `
+        Display one of my todo in a separate or dedicated view.<br/>
+        This todo will contain its title and a description (which is a new information not shown in the previous view).
+      `,
+      status: TodoStatus.COMPLETED
+    },
+    {
+      id: '6',
+      title: 'Add a new TODO',
+      desc: 'Add a new todo in my list',
       status: TodoStatus.COMPLETED
     }
   ];
@@ -81,6 +81,19 @@ export class MockTodoApi implements HttpInterceptor {
             }
             todo.status = status;
             return of(new HttpResponse({ status: 200 }));
+          }
+        }
+        if (request.method === 'POST') {
+          if (request.url.endsWith('todo')) {
+            const data = request.body;
+            const newTodo: Todo = {
+              id: cuid(),
+              title: data.title,
+              desc: data.desc,
+              status: TodoStatus.ACTIVE
+            };
+            this.todosDb.unshift(newTodo);
+            return of(new HttpResponse({ status: 200, body: newTodo }));
           }
         }
         return next.handle(request);

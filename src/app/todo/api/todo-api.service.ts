@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Todo, TodoStatus } from '../todo';
+import { Todo, TodoStatus, NewTodo } from '../todo';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +21,9 @@ export class TodoApiService {
 
   changeTodoStatus(id: string, status: TodoStatus) {
     return this.HttpClient.put<void>(`todo/${id}/status/${status}`, null);
+  }
+
+  createTodo(todo: NewTodo) {
+    return this.HttpClient.post<Todo>(`todo`, todo);
   }
 }

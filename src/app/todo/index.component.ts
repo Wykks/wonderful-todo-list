@@ -20,6 +20,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
     h1 {
       padding: 16px 16px 0px 16px;
       text-align: center;
+      margin-bottom: 6px;
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
