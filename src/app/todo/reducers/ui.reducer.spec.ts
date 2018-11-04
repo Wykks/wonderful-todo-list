@@ -1,6 +1,7 @@
 import { reducer, initialState } from './ui.reducer';
 import { LoadTodosSuccess, LoadTodos, LoadTodosFailure, SetTodoStatusSuccess, SetTodoStatusFailure, SetTodoStatus } from '../actions/todo.actions';
 import { TodoStatus } from '../todo';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('[Todo] Ui Reducer', () => {
   describe('LoadTodos', () => {
@@ -21,18 +22,19 @@ describe('[Todo] Ui Reducer', () => {
 
       expect(result.loadingTodoList).toBe(false);
       expect(result.todoListError).toBe(null);
+      expect(result.todoListLoaded).toBe(true);
     });
   });
 
   describe('LoadTodosFailure', () => {
     it('should clear loading and set error', () => {
-      const error = new Error();
+      const error = new HttpErrorResponse({status: 500});
       const action = new LoadTodosFailure(error);
 
       const result = reducer(initialState, action);
 
       expect(result.loadingTodoList).toBe(false);
-      expect(result.todoListError).toBe(error);
+      expect(result.todoListError).toBe(500);
     });
   });
 
@@ -60,7 +62,7 @@ describe('[Todo] Ui Reducer', () => {
 
   describe('SetTodoStatusFailure', () => {
     it('should clear loading and set error of todo', () => {
-      const error = new Error();
+      const error = new HttpErrorResponse({});
       const action = new SetTodoStatusFailure({ id: '42', status: TodoStatus.ACTIVE, error });
 
       const result = reducer(initialState, action);

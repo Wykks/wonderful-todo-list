@@ -15,6 +15,10 @@ export class TodoApiService {
     return this.HttpClient.get<Todo[]>('todos');
   }
 
+  getTodo(id: string) {
+    return this.HttpClient.get<Todo>(`todo/${id}`);
+  }
+
   changeTodoStatus(id: string, status: TodoStatus) {
     return this.HttpClient.put<void>(`todo/${id}/status/${status}`, null);
   }

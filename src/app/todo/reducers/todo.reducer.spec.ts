@@ -9,11 +9,13 @@ describe('[Todo] Todo Reducer', () => {
         {
           id: '1',
           title: 'Test',
+          desc: '',
           status: TodoStatus.COMPLETED
         },
         {
           id: '2',
           title: 'Test2',
+          desc: '',
           status: TodoStatus.ACTIVE
         }
       ]);
@@ -28,6 +30,7 @@ describe('[Todo] Todo Reducer', () => {
       const state1 = reducer(initialState, new LoadTodosSuccess([{
         id: '1',
         title: 'Test',
+        desc: '',
         status: TodoStatus.COMPLETED
       }]));
 

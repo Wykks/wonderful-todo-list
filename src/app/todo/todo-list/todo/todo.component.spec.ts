@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { SharedModule } from 'src/app/shared.module';
 import { LoadTodosSuccess, SetTodoStatus } from '../../actions/todo.actions';
@@ -14,6 +15,7 @@ describe('TodoComponent', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
+        RouterTestingModule,
         StoreModule.forRoot({
           'module-todo': combineReducers(moduleTodoReducer)
         }),
@@ -38,6 +40,7 @@ describe('TodoComponent', () => {
     const action = new LoadTodosSuccess([{
       id: '1',
       title: 'Test',
+      desc: '',
       status: TodoStatus.COMPLETED
     }]);
 
@@ -54,6 +57,7 @@ describe('TodoComponent', () => {
     const action = new LoadTodosSuccess([{
       id: '1',
       title: 'Test',
+      desc: '',
       status: TodoStatus.COMPLETED
     }]);
 

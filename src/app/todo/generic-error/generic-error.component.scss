@@ -1,0 +1,10 @@
+@import "src/theme";
+
+:host {
+  display: flex;
+  color: mat-color($wonderful-todo-list-warn);
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: center;
+}
+

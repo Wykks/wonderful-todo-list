@@ -7,6 +7,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
       display: flex;
       margin: 20px 0;
       flex-direction: column;
+      max-width: 400px;
     }
 
     mat-card {
@@ -18,8 +19,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
     h1 {
       padding: 16px 16px 0px 16px;
+      text-align: center;
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IndexComponent { }
+export class IndexComponent {}

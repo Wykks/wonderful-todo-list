@@ -1,0 +1,37 @@
+<ng-template
+  [ngIf]="todo$ | async"
+  [ngIfElse]="todoNotPresent"
+  let-todo
+>
+  <div class="title">
+    <h1>{{ todo.title }}</h1>
+    <ng-template [ngTemplateOutlet]="backButton"></ng-template>
+  </div>
+  <p [innerHtml]="todo.desc"></p>
+</ng-template>
+<ng-template #todoNotPresent>
+  <div class="loading">
+    <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
+  </div>
+  <app-generic-error
+    *ngIf="todoError$ | async"
+    (retry)="loadTodoIfNeeded()"
+  ></app-generic-error>
+  <div
+    *ngIf="noTodo$ | async"
+    class="error"
+  >
+    <p>This todo doesn't exist</p>
+    <ng-template [ngTemplateOutlet]="backButton"></ng-template>
+  </div>
+</ng-template>
+
+<ng-template #backButton>
+  <button
+    mat-icon-button
+    color="accent"
+    (click)="goToList()"
+  >
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+</ng-template>

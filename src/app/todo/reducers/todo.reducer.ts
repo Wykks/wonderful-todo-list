@@ -22,6 +22,8 @@ export function reducer(state = initialState, action: TodoActions): TodoState {
       return adapter.addMany(action.payload, state);
     case TodoActionTypes.SetTodoStatusSuccess:
       return adapter.updateOne({ id: action.payload.id, changes: { status: action.payload.status } }, state);
+    case TodoActionTypes.LoadTodoSuccess:
+      return adapter.upsertOne(action.payload, state);
     default:
       return state;
   }

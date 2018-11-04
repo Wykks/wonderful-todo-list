@@ -5,6 +5,10 @@ export const isTodoListLoading = createSelector(getUiState,
   (ui) => ui.loadingTodoList
 );
 
+export const isTodoListLoaded = createSelector(getUiState,
+  (ui) => ui.todoListLoaded
+);
+
 export const getTodoListError = createSelector(getUiState,
   (ui) => ui.todoListError
 );

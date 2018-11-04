@@ -7,21 +7,16 @@
 >
   <mat-icon color="warn">warning</mat-icon>
 </button>
-<mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
-<div
-  *ngIf="isError$ | async"
-  class="error"
->
-  <p>Something went wrong</p>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="loadTodoList()"
-  >Retry</button>
-</div>
-<mat-list>
-  <app-todo-list-todo
-    *ngFor="let todoId of (todoIds$ | async)"
-    [todoId]="todoId"
-  ></app-todo-list-todo>
-</mat-list>
+<mat-spinner *ngIf="isLoading$ | async; else todoList"></mat-spinner>
+<ng-template #todoList>
+  <app-generic-error
+    *ngIf="isError$ | async"
+    (retry)="loadTodoListIfNeeded()"
+  ></app-generic-error>
+  <mat-list *ngIf="!(isError$ | async)">
+    <app-todo-list-todo
+      *ngFor="let todoId of (todoIds$ | async)"
+      [todoId]="todoId"
+    ></app-todo-list-todo>
+  </mat-list>
+</ng-template>

@@ -13,10 +13,8 @@ import { environment } from 'src/environments/environment';
 export const APP_ROUTES: Routes = [
   {
     path: '',
-    children: TODO_ROUTES,
-    pathMatch: 'full'
-  },
-  { path: '**', redirectTo: '' }
+    children: TODO_ROUTES
+  }
 ];
 
 @NgModule({

@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Todo, TodoStatus } from '../todo';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export enum TodoActionTypes {
   LoadTodos = '[Todo] Load Todos',
@@ -7,7 +8,10 @@ export enum TodoActionTypes {
   LoadTodosFailure = '[Todo] Load Todos Failure',
   SetTodoStatus = '[Todo] Set Todo Status',
   SetTodoStatusSuccess = '[Todo] Set Todo Status Success',
-  SetTodoStatusFailure = '[Todo] Set Todo Status Failure'
+  SetTodoStatusFailure = '[Todo] Set Todo Status Failure',
+  LoadTodo = '[Todo] Load Todo',
+  LoadTodoSuccess = '[Todo] Load Todo Success',
+  LoadTodoFailure = '[Todo] Load Todo Failure',
 }
 
 export class LoadTodos implements Action {
@@ -23,7 +27,7 @@ export class LoadTodosSuccess implements Action {
 export class LoadTodosFailure implements Action {
   readonly type = TodoActionTypes.LoadTodosFailure;
 
-  constructor(public payload: Error) { }
+  constructor(public payload: HttpErrorResponse) { }
 }
 
 export class SetTodoStatus implements Action {
@@ -41,7 +45,25 @@ export class SetTodoStatusSuccess implements Action {
 export class SetTodoStatusFailure implements Action {
   readonly type = TodoActionTypes.SetTodoStatusFailure;
 
-  constructor(public payload: { id: string; error: Error, status: TodoStatus }) { }
+  constructor(public payload: { id: string; error: HttpErrorResponse, status: TodoStatus }) { }
+}
+
+export class LoadTodo implements Action {
+  readonly type = TodoActionTypes.LoadTodo;
+
+  constructor(public payload: string) { }
+}
+
+export class LoadTodoSuccess implements Action {
+  readonly type = TodoActionTypes.LoadTodoSuccess;
+
+  constructor(public payload: Todo) { }
+}
+
+export class LoadTodoFailure implements Action {
+  readonly type = TodoActionTypes.LoadTodoFailure;
+
+  constructor(public payload: { id: string, error: HttpErrorResponse }) { }
 }
 
 export type TodoActions =
@@ -50,4 +72,7 @@ export type TodoActions =
   LoadTodosFailure |
   SetTodoStatus |
   SetTodoStatusSuccess |
-  SetTodoStatusFailure;
+  SetTodoStatusFailure |
+  LoadTodo |
+  LoadTodoSuccess |
+  LoadTodoFailure;

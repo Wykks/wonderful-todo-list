@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import { Subscription, combineLatest } from 'rxjs';
 import { SetTodoStatus } from '../../actions/todo.actions';
 import { getTodoLoadingById, getTodoErrorById } from '../../selectors/ui.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo-list-todo',
@@ -64,7 +65,8 @@ export class TodoComponent implements OnInit {
   subscriptions = new Subscription();
 
   constructor(
-    private Store: Store<State>
+    private Store: Store<State>,
+    private Router: Router
   ) { }
 
   ngOnInit() {
@@ -96,9 +98,13 @@ export class TodoComponent implements OnInit {
 
   retry() {
     this.todoError$.pipe(first()).subscribe((error) => {
-      if (error.changes.status) {
+      if (error.changes && error.changes.status) {
         this.Store.dispatch(new SetTodoStatus({ id: this.todoId, status: error.changes.status }))
       }
     });
+  }
+
+  goToTodo(todo: Todo) {
+    this.Router.navigate(['/todo', todo.id]);
   }
 }

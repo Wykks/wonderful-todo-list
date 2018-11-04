@@ -6,6 +6,7 @@ import { LoadTodos, LoadTodosSuccess, LoadTodosFailure, SetTodoStatus, SetTodoSt
 import { TodoApiService } from '../api/todo-api.service';
 import { Todo, TodoStatus } from '../todo';
 import { TodoEffects } from './todo.effects';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('TodoEffects', () => {
   let actions$: Observable<any>;
@@ -20,11 +21,13 @@ describe('TodoEffects', () => {
       {
         id: '1',
         title: 'Test',
+        desc: '',
         status: TodoStatus.COMPLETED
       },
       {
         id: '2',
         title: 'Test2',
+        desc: '',
         status: TodoStatus.ACTIVE
       }
     ]
@@ -59,7 +62,7 @@ describe('TodoEffects', () => {
     });
 
     it('should handle error correctly ', () => {
-      const error = new Error('Oops');
+      const error = new HttpErrorResponse({});
       const q$ = cold('-#|', null, error);
       getTodosSpy.and.returnValue(q$);
 
@@ -88,7 +91,7 @@ describe('TodoEffects', () => {
     });
 
     it('should handle multiple error correctly ', () => {
-      const error = new Error('Oops');
+      const error = new HttpErrorResponse({});
       const q$ = cold('--#|', null, error);
       changeTodoStatusSpy.and.returnValue(q$);
 

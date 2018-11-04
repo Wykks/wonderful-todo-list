@@ -1,0 +1,25 @@
+@import "src/theme";
+
+:host {
+  padding: 0px 16px;
+  min-height: 130px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  display: flex;
+  color: mat-color($wonderful-todo-list-warn);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+
+  h1 {
+    flex: 1;
+  }
+}

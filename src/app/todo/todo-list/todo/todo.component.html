@@ -16,6 +16,13 @@
     [ngClass]="{completed: isCompleted(todo)}"
   >{{ todo.title }}</h4>
   <button
+    mat-icon-button
+    (click)="goToTodo(todo)"
+    color="accent"
+  >
+    <mat-icon>search</mat-icon>
+  </button>
+  <button
     *ngIf="todoError$ | async"
     mat-icon-button
     matTooltip="Retry"
