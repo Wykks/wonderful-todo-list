@@ -1,7 +1,7 @@
 @import '~@angular/material/theming';
 
-$wonderful-todo-list-primary: mat-palette($mat-indigo);
-$wonderful-todo-list-accent: mat-palette($mat-pink, A200, A100, A400);
+$wonderful-todo-list-primary: mat-palette($mat-deep-purple);
+$wonderful-todo-list-accent: mat-palette($mat-indigo);
 $wonderful-todo-list-warn: mat-palette($mat-red);
 
 $wonderful-todo-list-theme: mat-light-theme($wonderful-todo-list-primary, $wonderful-todo-list-accent, $wonderful-todo-list-warn);
