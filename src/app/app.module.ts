@@ -5,9 +5,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { setAutoFreeze } from 'immer';
+import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
 import { TODO_ROUTES, TodoModule } from './todo/todo.module';
-import { environment } from 'src/environments/environment';
 
 export const APP_ROUTES: Routes = [
   {
@@ -35,4 +36,10 @@ export const APP_ROUTES: Routes = [
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    if (environment.production) {
+      setAutoFreeze(false);
+    }
+  }
+}
