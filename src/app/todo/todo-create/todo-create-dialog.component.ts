@@ -41,9 +41,11 @@ export class TodoCreateDialogComponent {
 
   save() {
     this.isLoading = true;
+    this.form.disable({ emitEvent: false });
     this.sub = this.TodoApiService.createTodo(this.form.value).pipe(
       finalize(() => {
         this.isLoading = false;
+        this.form.enable({ emitEvent: false });
         this.ChangeDetectorRef.markForCheck();
       })
     ).subscribe((todo) => {
