@@ -11,7 +11,16 @@ export class MockTodoApi implements HttpInterceptor {
     {
       id: '1',
       title: 'More things TODO',
-      desc: 'Do fancy stuff',
+      desc: `
+      Hey!
+      ___
+      |    Browser    | Version | Author  |
+      |---------------|---------|---------|
+      | Google Chrome | 70.x    | Google  |
+      | Firefox       | 63.x    | Mozilla |
+
+      ___
+      `,
       status: TodoStatus.ACTIVE
     },
     {
@@ -36,7 +45,9 @@ export class MockTodoApi implements HttpInterceptor {
       id: '5',
       title: 'Detail a TODO',
       desc: `
-        Display one of my todo in a separate or dedicated view.<br/>
+        Display one of my todo in a separate or dedicated view.
+
+
         This todo will contain its title and a description (which is a new information not shown in the previous view).
       `,
       status: TodoStatus.COMPLETED

@@ -12,6 +12,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   templateUrl: './todo-create-dialog.component.html',
   styles: [`
+    :host {
+      display: block;
+      width: 50vw;
+    }
+
     .form {
       display: flex;
       flex-direction: column;

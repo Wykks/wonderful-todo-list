@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { NgxMdModule } from 'ngx-md';
 import { SharedModule } from '../shared.module';
 import { mockTodoApiProvider } from './api/mock-todo-api.service';
 import { TodoEffects } from './effects/todo.effects';
@@ -46,7 +47,8 @@ export const TODO_ROUTES: Routes = [
     SharedModule,
     RouterModule,
     StoreModule.forFeature('module-todo', moduleTodoReducer),
-    EffectsModule.forFeature([TodoEffects])
+    EffectsModule.forFeature([TodoEffects]),
+    NgxMdModule
   ],
   declarations: [
     IndexComponent,
